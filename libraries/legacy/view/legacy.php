@@ -17,6 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  View
  * @since       12.2
+ * @deprecated  13.3
  */
 class JViewLegacy extends JObject
 {
@@ -205,6 +206,7 @@ class JViewLegacy extends JObject
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
+
 		if ($result instanceof Exception)
 		{
 			return $result;
@@ -292,6 +294,7 @@ class JViewLegacy extends JObject
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
+
 			return true;
 		}
 
@@ -331,6 +334,7 @@ class JViewLegacy extends JObject
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
 			$this->$key = &$val;
+
 			return true;
 		}
 
@@ -392,6 +396,7 @@ class JViewLegacy extends JObject
 			{
 				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
+
 				return $result;
 			}
 
@@ -456,16 +461,15 @@ class JViewLegacy extends JObject
 	{
 		if (empty($this->_name))
 		{
-			$r = null;
-			if (!preg_match('/View((view)*(.*(view)?.*))$/i', get_class($this), $r))
+			$classname = get_class($this);
+			$viewpos = strpos($classname, 'View');
+
+			if ($viewpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
-			if (strpos($r[3], "view"))
-			{
-				JLog::add(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME_SUBSTRING'), JLog::WARNING, 'jerror');
-			}
-			$this->_name = strtolower($r[3]);
+
+			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;
@@ -509,6 +513,7 @@ class JViewLegacy extends JObject
 	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
+
 		if (strpos($layout, ':') === false)
 		{
 			$this->_layout = $layout;
@@ -538,6 +543,7 @@ class JViewLegacy extends JObject
 	public function setLayoutExt($value)
 	{
 		$previous = $this->_layoutExt;
+
 		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value)))
 		{
 			$this->_layoutExt = $value;
