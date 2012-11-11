@@ -12,8 +12,8 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  String
- * @since       12.1
  * @link        http://en.wikipedia.org/wiki/English_plural
+ * @since       12.1
  */
 class JStringInflectorTest extends PHPUnit_Framework_TestCase
 {
@@ -89,8 +89,10 @@ class JStringInflectorTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->inflector = JStringInflector::getInstance(true);
 	}
 

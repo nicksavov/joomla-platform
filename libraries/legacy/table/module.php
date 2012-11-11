@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
+ * @deprecated  13.3
  */
 class JTableModule extends JTable
 {
@@ -25,7 +26,7 @@ class JTableModule extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 
@@ -46,6 +47,7 @@ class JTableModule extends JTable
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
+
 			return false;
 		}
 

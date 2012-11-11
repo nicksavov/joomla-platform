@@ -244,6 +244,7 @@ class JUser extends JObject
 			{
 				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
 				$retval = false;
+
 				return $retval;
 			}
 		}
@@ -354,6 +355,7 @@ class JUser extends JObject
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities))
 				{
 					$this->isRoot = true;
+
 					return true;
 				}
 			}
@@ -382,6 +384,7 @@ class JUser extends JObject
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
+
 		foreach ($allCategories as $category)
 		{
 			if ($this->authorise($action, $category->asset_name))
@@ -450,26 +453,6 @@ class JUser extends JObject
 		$table->load($this->id);
 
 		return $table->setLastVisit($timestamp);
-	}
-
-	/**
-	 * Method to get the user parameters
-	 *
-	 * This method used to load the user parameters from a file.
-	 *
-	 * @return  object   The user parameters object.
-	 *
-	 * @since   11.1
-	 * @deprecated  12.3  Instead use JUser::getParam()
-	 */
-	public function getParameters()
-	{
-		// @codeCoverageIgnoreStart
-		JLog::add('JUser::getParameters() is deprecated. JUser::getParam().', JLog::WARNING, 'deprecated');
-
-		return $this->_params;
-
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -548,6 +531,7 @@ class JUser extends JObject
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
 				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 				return false;
 			}
 
@@ -563,6 +547,7 @@ class JUser extends JObject
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
+
 			if (strlen($username) > 150)
 			{
 				$username = substr($username, 0, 150);
@@ -571,6 +556,7 @@ class JUser extends JObject
 
 			// Check that password is not greater than 100 characters
 			$password = $this->get('password');
+
 			if (strlen($password) > 100)
 			{
 				$password = substr($password, 0, 100);
@@ -585,6 +571,7 @@ class JUser extends JObject
 				if ($array['password'] != $array['password2'])
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 					return false;
 				}
 
@@ -622,6 +609,7 @@ class JUser extends JObject
 		if (!$this->setProperties($array))
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+
 			return false;
 		}
 
@@ -656,6 +644,7 @@ class JUser extends JObject
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -726,6 +715,7 @@ class JUser extends JObject
 			$dispatcher = JEventDispatcher::getInstance();
 
 			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+
 			if (in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
@@ -780,6 +770,7 @@ class JUser extends JObject
 		$table = $this->getTable();
 
 		$result = false;
+
 		if (!$result = $table->delete($this->id))
 		{
 			$this->setError($table->getError());
@@ -812,6 +803,7 @@ class JUser extends JObject
 			$this->guest = 1;
 
 			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 

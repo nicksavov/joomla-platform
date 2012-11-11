@@ -26,7 +26,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function cases__construct()
+	public function cases__construct()
 	{
 		date_default_timezone_set('UTC');
 
@@ -66,7 +66,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function cases__get()
+	public function cases__get()
 	{
 		return array(
 			'daysinmonth' => array(
@@ -139,7 +139,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesFormat()
+	public function casesFormat()
 	{
 		return array(
 			'basic' => array(
@@ -157,37 +157,39 @@ class JDateTest extends TestCaseDatabase
 				false,
 				'122007 164456',
 			),
-			// TODO  Need to fix up language string/file dependancies before we can do these properly.
-// 			'Long' => array(
-// 				'D F j, Y H:i:s',
-// 				true,
-// 				'Thu December 20, 2007 11:44:56',
-// 			),
-// 			'LongGMT' => array(
-// 				'D F j, Y H:i:s',
-// 				false,
-// 				'Thu December 20, 2007 16:44:56',
-// 			),
-// 			'Long2' => array(
-// 				'H:i:s D F j, Y',
-// 				false,
-// 				'16:44:56 Thu December 20, 2007',
-// 			),
-// 			'Long3' => array(
-// 				'H:i:s l F j, Y',
-// 				false,
-// 				'16:44:56 Thursday December 20, 2007',
-// 			),
-// 			'Long4' => array(
-// 				'H:i:s l M j, Y',
-// 				false,
-// 				'16:44:56 Thursday Dec 20, 2007',
-// 			),
-// 			'RFC822' => array(
-// 				'r',
-// 				false,
-// 				'Thu, 20 Dec 2007 16:44:56 +0000',
-// 			),
+			/*
+			@TODO  Need to fix up language string/file dependancies before we can do these properly.
+ 			'Long' => array(
+ 				'D F j, Y H:i:s',
+				true,
+ 				'Thu December 20, 2007 11:44:56',
+ 			),
+ 			'LongGMT' => array(
+ 				'D F j, Y H:i:s',
+ 				false,
+ 				'Thu December 20, 2007 16:44:56',
+ 			),
+ 			'Long2' => array(
+ 				'H:i:s D F j, Y',
+ 				false,
+ 				'16:44:56 Thu December 20, 2007',
+ 			),
+ 			'Long3' => array(
+ 				'H:i:s l F j, Y',
+ 				false,
+ 				'16:44:56 Thursday December 20, 2007',
+ 			),
+ 			'Long4' => array(
+ 				'H:i:s l M j, Y',
+ 				false,
+ 				'16:44:56 Thursday Dec 20, 2007',
+ 			),
+ 			'RFC822' => array(
+ 				'r',
+ 				false,
+ 				'Thu, 20 Dec 2007 16:44:56 +0000',
+ 			),
+ 			*/
 		);
 	}
 
@@ -198,7 +200,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesGetOffsetFromGMT()
+	public function casesGetOffsetFromGMT()
 	{
 		return array(
 			'basic' => array(
@@ -241,7 +243,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesSetTimezone()
+	public function casesSetTimezone()
 	{
 		return array(
 			'New_York' => array(
@@ -278,7 +280,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToISO8601()
+	public function casesToISO8601()
 	{
 		return array(
 			'basic' => array(
@@ -321,7 +323,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToSQL()
+	public function casesToSQL()
 	{
 		return array(
 			'basic' => array(
@@ -364,7 +366,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToRFC822()
+	public function casesToRFC822()
 	{
 		return array(
 			'basic' => array(
@@ -407,7 +409,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToString()
+	public function casesToString()
 	{
 		return array(
 			'basic' => array(
@@ -432,7 +434,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function casesToUnix()
+	public function casesToUnix()
 	{
 		return array(
 			'basic' => array(
@@ -472,8 +474,10 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	public function setUp()
+	protected function setUp()
 	{
+		// Note: do not extend parent setUp method
+
 		$this->object = new JDate('12/20/2007 11:44:56', 'America/New_York');
 	}
 
@@ -486,7 +490,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	function tearDown()
+	public function tearDown()
 	{
 	}
 
@@ -512,11 +516,13 @@ class JDateTest extends TestCaseDatabase
 			$this->equalTo($expectedTime)
 		);
 
-		// TODO - Decouple the language system better.
-// 		$this->assertThat(
-// 			$jdate->format('D m/d/Y H:i', true),
-// 			$this->equalTo($expectedTime)
-// 		);
+		/*
+		@TODO - Decouple the language system better.
+ 		$this->assertThat(
+ 			$jdate->format('D m/d/Y H:i', true),
+ 			$this->equalTo($expectedTime)
+ 		);
+		*/
 	}
 
 	/**
@@ -686,6 +692,7 @@ class JDateTest extends TestCaseDatabase
 	{
 		$language = JFactory::getLanguage();
 		$debug = $language->setDebug(true);
+
 		if (is_null($tz))
 		{
 			$testJDate = new JDate($setTime);

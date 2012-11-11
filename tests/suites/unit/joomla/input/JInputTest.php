@@ -62,7 +62,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->class->post->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Test the set method.
@@ -70,7 +70,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$_POST['foo'],
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->markTestIncomplete();
@@ -117,7 +117,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->class->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$_GET['foo'] = 'bar2';
@@ -126,14 +126,14 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->class->get->get('foo'),
 			$this->equalTo('bar2'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		// Test the get method.
 		$this->assertThat(
 			$this->class->get('default_value', 'default'),
 			$this->equalTo('default'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 	}
@@ -154,7 +154,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$_REQUEST['foo'],
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->class->def('Joomla', 'is great');
@@ -162,7 +162,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$_REQUEST['Joomla'],
 			$this->equalTo('is great'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -181,7 +181,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$_REQUEST['foo'],
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -194,7 +194,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetArray()
 	{
-		$filterMock = new JFilterInputMockTracker();
+		$filterMock = new JFilterInputMockTracker;
 
 		$array = array(
 			'var1' => 'value1',
@@ -211,25 +211,25 @@ class JInputTest extends PHPUnit_Framework_TestCase
 				array('var1' => 'filter1', 'var2' => 'filter2', 'var3' => 'filter3')
 			),
 			$this->equalTo(array('var1' => 'value1', 'var2' => 34, 'var3' => array('test'))),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$filterMock->calls['clean'][0],
 			$this->equalTo(array('value1', 'filter1')),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$filterMock->calls['clean'][1],
 			$this->equalTo(array(34, 'filter2')),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$filterMock->calls['clean'][2],
 			$this->equalTo(array(array('test'), 'filter3')),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -242,7 +242,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetArrayNested()
 	{
-		$filterMock = new JFilterInputMockTracker();
+		$filterMock = new JFilterInputMockTracker;
 
 		$array = array(
 			'var2' => 34,
@@ -259,7 +259,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 				array('var2' => 'filter2', 'var3' => array('var2' => 'filter3'))
 			),
 			$this->equalTo(array('var2' => 34, 'var3' => array('var2' => 'test'))),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
@@ -267,21 +267,43 @@ class JInputTest extends PHPUnit_Framework_TestCase
 				array('var4' => array('var1' => array('var2' => 'filter1')))
 			),
 			$this->equalTo(array('var4' => array('var1' => array('var2' => 'test')))),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
-
 
 		$this->assertThat(
 			$filterMock->calls['clean'][0],
 			$this->equalTo(array(34, 'filter2')),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$this->assertThat(
 			$filterMock->calls['clean'][1],
 			$this->equalTo(array(array('var2' => 'test'), 'array')),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
+	}
+
+	/**
+	 * Test the JInput::getArray method without specified variables.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testGetArrayWithoutSpecifiedVariables()
+	{
+		$array = array(
+			'var2' => 34,
+			'var3' => array('var2' => 'test'),
+			'var4' => array('var1' => array('var2' => 'test')),
+			'var5' => array('foo' => array()),
+			'var6' => array('bar' => null),
+			'var7' => null
+		);
+
+		$input = new JInput($array);
+
+		$this->assertEquals($input->getArray(), $array);
 	}
 
 	/**
@@ -297,7 +319,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->class->cookie instanceof JInputCookie,
 			$this->isTrue(),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 
 		$_COOKIE['foo'] = 'bar';
@@ -306,7 +328,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->class->cookie->get('foo'),
 			$this->equalTo('bar'),
-			'Line: '.__LINE__.'.'
+			'Line: ' . __LINE__ . '.'
 		);
 	}
 
@@ -357,9 +379,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 		$this->markTestIncomplete();
 	}
 
-	//
-	// Protected methods.
-	//
+	/*
+	 * Protected methods.
+	 */
 
 	/**
 	 * Test the JInput::loadAllInputs method.
@@ -382,11 +404,13 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		include_once __DIR__ . '/stubs/JInputInspector.php';
 		include_once __DIR__ . '/stubs/JFilterInputMock.php';
 		include_once __DIR__ . '/stubs/JFilterInputMockTracker.php';
 
 		$array = null;
-		$this->class = new JInputInspector($array, array('filter' => new JFilterInputMock()));
+		$this->class = new JInputInspector($array, array('filter' => new JFilterInputMock));
 	}
 }
